@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .input-field{
+            display: flex;
+            gap: 1rem;
+        }
+        label{
+            width: 12rem;
+        }
+        span{
+            font-size: small;
+            color: red;
+        }
+        input:invalid{
+            border: 1px solid red;
+        }
+        #submit-button{
+            width: fit-content;
+            padding: 0.3rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Browser form</h1>
+        <form action="#" novalidate="true">
+            <div class="input-field">
+                <label>Email</label>
+                <input type="email" required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" id="email"><span id="email-error"></span>
+            </div>
+            <div class="input-field">
+                <label>Country</label>
+                <input type="text" required pattern="^([a-zA-Z])\w+$" id="country"><span id="country-error"></span>
+            </div>
+            <div class="input-field">
+                <label>Zip code</label>
+                <input type="number" id="zip-code" required pattern="^[0-9]\w+$"><span id="zip-code-error"></span>
+            </div>
+            <div class="input-field">
+                <label>Password</label>
+                <input type="password" id="password" required pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$"><span id="password-error"></span>
+            </div>
+            <div class="input-field">
+                <label>Re enter password</label>
+                <input type="password" id="password-match" required><span id="password-match-error"></span>
+            </div>
+            <input type="submit" id="submit-button">
+        </form>
+    </div>
+
+    <script>
+        let form = document.querySelector("form");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            document.querySelector("span").textContent = "";
+
+            let email = document.querySelector("#email");
+            let countrty = document.querySelector("#country");
+            let zip_code = document.querySelector("#zip-code");
+            let password = document.querySelector("#password");
+            let password_match = document.querySelector("#password-match");
+            
+            if(!email.validity.valid){
+                error_log(1);
+            }
+            if(!countrty.validity.valid){
+                error_log(2);
+            }
+            if(!zip_code.validity.valid){
+                error_log(3);
+            }
+            if(!password.validity.valid){
+                error_log(4);
+            }
+            if(password.value.localeCompare(password_match.value) !== 0){
+                error_log(5);
+            }
+        });
+
+        function error_log(error){
+            if(error === 1){
+                document.querySelector("#email-error").textContent = "Enter a valid email address";
+            }
+            if(error === 2){
+                document.querySelector("#country-error").textContent = "Country name should only contain letters";
+            }
+            if(error === 3){
+                document.querySelector("#zip-code-error").textContent = "Zip code should only contain numbers";
+            }
+            if(error === 4) {
+                document.querySelector("#password-error").textContent = "Password must contain numbers, lower and upper case letters, special characters and charcter length must be between 8 and 16";
+            }
+            if(error === 5) {
+                document.querySelector("#password-match-error").textContent = "Passwords does not match";
+            }
+        }
+    </script>
+</body>
+</html>
